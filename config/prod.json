@@ -1,0 +1,9 @@
+{
+  "secret": "supersecret",
+  "database": {
+    "host": "mysql",
+    "name": "cronScheduler",
+    "username": "root",
+    "password": "root"
+  }
+}

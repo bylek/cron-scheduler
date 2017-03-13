@@ -1,0 +1,28 @@
+version: '2'
+services:
+    haproxy:
+        image: bylek/timer-haproxy
+        ports:
+            - "80:80"
+        links:
+            - frontend
+            - backend
+        depends_on:
+            - mysql
+            - backend
+            - frontend
+    mysql:
+        image: bylek/timer-mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+    backend:
+        image: bylek/timer-backend
+        restart: always
+        links:
+            - mysql
+        depends_on:
+            - mysql
+    frontend:
+        image: bylek/timer-frontend
+        depends_on:
+            - backend
