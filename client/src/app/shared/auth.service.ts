@@ -41,7 +41,7 @@ export class AuthService extends AbstractService {
     }
   }
 
-  getAccountData() {
+  getMemberData() {
     const token = localStorage.getItem('id_token');
     return this.jwtHelper.decodeToken(token);
   }

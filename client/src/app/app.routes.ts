@@ -1,12 +1,16 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ServerComponent } from './server/server.component';
+
+import { ServersListComponent } from './servers/list/list.component';
+import { ServersItemComponent } from './servers/item/item.component';
+import { ServersAddComponent } from './servers/add/add.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth.guard';
 import { RegisterComponent } from './register/register.component';
-import { ServerAddComponent } from './server-add/server-add.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 // Route Configuration
 export const routes: Routes = [
@@ -15,9 +19,10 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: ServerComponent },
-      { path: 'servers', component: ServerComponent },
-      { path: 'servers/add', component: ServerAddComponent }
+      { path: '', component: DashboardComponent },
+      { path: 'servers', component: ServersListComponent },
+      { path: 'servers/add', component: ServersAddComponent },
+      { path: 'servers/:id', component: ServersItemComponent }
     ]
   },
   {
@@ -28,7 +33,8 @@ export const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent }
     ]
-  }
+  },
+  { path: '**', component: NotFoundComponent },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

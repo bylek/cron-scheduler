@@ -627,6 +627,10 @@ ul.list-justify > li span {
 /********************
  * INPUTS
  ********************/
+.form-footer {
+  margin-top: 20px;
+}
+
 .form-control {
   -moz-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);

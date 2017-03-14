@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 
 module.exports = function(sequelize, DataTypes) {
-  const User = sequelize.define('Account', {
+  const User = sequelize.define('Member', {
     email: {
       type: DataTypes.STRING,
       unique: true
@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'accounts',
+    tableName: 'members',
     underscored: true,
     indexes: [{unique: true, fields: ['email']}],
     instanceMethods: {
@@ -44,17 +44,17 @@ module.exports = function(sequelize, DataTypes) {
   return User;
 };
 
-async function hashPassword(user, options, callback){
-  if (user.get('password')) {
+async function hashPassword(member, options, callback){
+  if (member.get('password')) {
     let hash;
     try {
-      hash = await bcrypt.hash(user.get('password'), 10);
+      hash = await bcrypt.hash(member.get('password'), 10);
 
     } catch (err) {
       return callback(err);
     }
 
-    user.set('password_digest', hash);
+    member.set('password_digest', hash);
     return callback(null, options);
   }
 }

@@ -3,22 +3,25 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AppComponent } from './app.component';
-import { ServerComponent } from './server/server.component';
-import { routing } from './app.routes';
-import { LoginComponent } from './login/login.component';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { AppComponent } from './app.component';
+import { routing } from './app.routes';
 
+import { ServersListComponent } from './servers/list/list.component';
+import { ServersListItemComponent } from './servers/list/item.component';
+import { ServersItemComponent } from './servers/item/item.component';
+import { ServersAddComponent } from './servers/add/add.component';
+import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth.guard';
 import { AuthService } from './shared/auth.service';
 import { RegisterComponent } from './register/register.component';
-import { ServerService } from './server/server.service';
-import { ServerAddComponent } from './server-add/server-add.component';
+import { ServerService } from './servers/server.service';
 import { MenuSidebarComponent } from './menu/sidebar.component';
 import { MenuNavbarComponent } from './menu/navbar.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -30,13 +33,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ServerComponent,
-    ServerAddComponent,
+    ServersListComponent,
+    ServersListItemComponent,
+    ServersItemComponent,
+    ServersAddComponent,
     MenuSidebarComponent,
     MenuNavbarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    DashboardComponent
+    DashboardComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

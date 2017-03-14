@@ -1,0 +1,27 @@
+<div class="col-md-4">
+  <div class="panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <a [routerLink]="['/servers', server.id]">{{server.name}}</a>
+      </h3>
+      <div class="right">
+        <button type="button" class="btn-remove" (click)="onRemove()">
+          <i class="lnr lnr-cross"></i>
+        </button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p>{{server.description}}</p>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-9">
+          {{server.address}}
+        </div>
+        <div class="col-md-3">
+          {{server.port}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

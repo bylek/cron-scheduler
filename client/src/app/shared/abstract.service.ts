@@ -16,6 +16,10 @@ export abstract class AbstractService {
     return this.http[method](this.apiEndpoint + path, data)
       .map(callback)
       .catch((error: any) => {
+        if (error.status === 403) {
+          localStorage.removeItem('id_token');
+        }
+
         return Observable.throw(error.json().error || 'Something went wrong');
       });
   }

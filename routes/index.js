@@ -12,13 +12,13 @@ module.exports = function(app){
 };
 
 async function isAuthenticated(req, res, next) {
-  const Account = req.app.get('models').Account;
+  const Member = req.app.get('models').Member;
   let token = (req.headers['authorization'] || req.query.token || '').replace(/^Bearer /, '');
 
   if (token) {
-    let account;
+    let member;
     try {
-      account = await jwt.verify(token, config.get('secret'));
+      member = await jwt.verify(token, config.get('secret'));
 
     } catch (err) {
       return res.status(403).send({
@@ -27,25 +27,22 @@ async function isAuthenticated(req, res, next) {
       });
     }
 
-    try {
-      account = await Account.findById(account.id);
-
-    } catch (err) {
+    member = await Member.findById(member.id);
+    if (!member) {
       return res.status(403).send({
         success: false,
         message: 'User doesn\'t exist.'
       });
     }
 
-    req.account = account;
-    next();
-
-
-  } else {
-    return res.status(403).send({
-      success: false,
-      message: 'No token provided.'
-    });
+    req.member = member;
+    return next();
 
   }
+
+  return res.status(403).send({
+    success: false,
+    message: 'No token provided.'
+  });
+
 }

@@ -1,23 +1,36 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async function(req, res) {
+router.get('/', getServers);
+router.post('/', createServer);
+router.patch('/:id', updateServer);
+router.delete('/:id', deleteServer);
+
+module.exports = router;
+
+async function getServers(req, res) {
   const Server = req.app.get('models').Server;
 
-  let servers;
-  try {
-    servers = await Server.findAll({
-      where: {
-        user_id: req.user.id
-      }
-    });
-
-  } catch (err) {}
+  const servers = await Server.findAll({
+    where: {
+      member_id: req.member.id
+    }
+  });
 
   return res.json(servers || []);
-});
+}
 
-router.patch('/:id', async function(req, res){
+async function createServer(req, res){
+  const Server = req.app.get('models').Server;
+
+  const data = req.body;
+  data.member_id = req.member.id;
+
+  const server = await Server.create(data);
+  return res.json(server);
+}
+
+async function updateServer(req, res){
   const Server = req.app.get('models').Server;
 
   let server = await Server.findById(req.params.id);
@@ -30,22 +43,12 @@ router.patch('/:id', async function(req, res){
 
   server = await server.update(req.body);
   return res.json(server);
-});
+}
 
-router.post('/', async function(req, res){
+async function deleteServer(req, res){
   const Server = req.app.get('models').Server;
 
-  let data = req.body;
-  data.user_id = req.user.id;
-
-  let server = Server.create(data);
-  return res.json(server);
-});
-
-router.delete('/:id', async function(req, res){
-  const Server = req.app.get('models').Server;
-
-  let server = Server.findById(req.params.id);
+  const server = await Server.findById(req.params.id);
   if (!server) {
     return res.status(403).send({
       success: false,
@@ -53,10 +56,8 @@ router.delete('/:id', async function(req, res){
     });
   }
 
-  server.destroy();
+  await server.destroy();
   res.json({
     success: true
   });
-});
-
-module.exports = router;
+}
