@@ -14,8 +14,10 @@ const sequelize = new Sequelize(
 
 // load models
 const models = [
+  'Member',
   'Server',
-  'Member'
+  'User',
+  'Job'
 ];
 models.forEach(function(model) {
   module.exports[model] = sequelize.import(__dirname + '/' + model);
@@ -24,6 +26,8 @@ models.forEach(function(model) {
 // describe relationships
 (function(m) {
   m.Member.hasMany(m.Server);
+  m.Server.hasMany(m.User);
+  m.User.hasMany(m.Job);
 })(module.exports);
 
 // export connection

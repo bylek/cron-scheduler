@@ -3,8 +3,8 @@ const router = express.Router();
 
 router.get('/', getServers);
 router.post('/', createServer);
-router.patch('/:id', updateServer);
-router.delete('/:id', deleteServer);
+router.patch('/:serverId', updateServer);
+router.delete('/:serverId', deleteServer);
 
 module.exports = router;
 
@@ -33,7 +33,7 @@ async function createServer(req, res){
 async function updateServer(req, res){
   const Server = req.app.get('models').Server;
 
-  let server = await Server.findById(req.params.id);
+  let server = await Server.findById(req.params.serverId);
   if (!server) {
     return res.status(403).send({
       success: false,
@@ -48,7 +48,7 @@ async function updateServer(req, res){
 async function deleteServer(req, res){
   const Server = req.app.get('models').Server;
 
-  const server = await Server.findById(req.params.id);
+  const server = await Server.findById(req.params.serverId);
   if (!server) {
     return res.status(403).send({
       success: false,

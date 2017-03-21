@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const servers = require('./servers');
+const users = require('./users');
+const jobs = require('./jobs');
 const authenticate = require('./authenticate');
 const register = require('./register');
 
@@ -9,6 +11,8 @@ module.exports = function(app){
   app.use('/api/register', register);
 
   app.use('/api/servers', isAuthenticated, servers);
+  app.use('/api/servers/:serverId/users', isAuthenticated, users);
+  app.use('/api/servers/:serverId/users/:userId/jobs', isAuthenticated, jobs);
 };
 
 async function isAuthenticated(req, res, next) {
