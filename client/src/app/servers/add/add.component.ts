@@ -33,12 +33,10 @@ export class ServersAddComponent implements OnInit {
     }
 
     const server = this.form.value;
-    console.log('create server', server);
     this.serverService.createServer(server)
       .subscribe(() => {
-          this.router.navigate(['/servers']);
-        }
-      )
+        this.router.navigate(['/servers']);
+      });
   }
 
 }

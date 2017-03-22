@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Server } from '../server.model';
 import { ServerService } from '../server.service';
 
@@ -6,29 +6,19 @@ import { ServerService } from '../server.service';
   selector: 'app-servers-list-item',
   templateUrl: 'item.component.html'
 })
-export class ServersListItemComponent implements OnInit {
+export class ServersListItemComponent {
 
   @Input() server: Server;
-
-  @Output()
-  afterRemove: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private serverService: ServerService
   ) { }
 
-  ngOnInit() {
-  }
-
   onRemove() {
     const canRemove = confirm('Are you sure?');
     if (canRemove) {
       this.serverService.deleteServer(this.server)
-        .subscribe(
-          () => {
-            this.afterRemove.emit(this.server);
-          }
-        );
+        .subscribe();
     }
   }
 }

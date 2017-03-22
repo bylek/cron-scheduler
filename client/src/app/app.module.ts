@@ -22,6 +22,8 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { StoreModule } from '@ngrx/store';
+import { servers } from './servers/server.store';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -48,7 +50,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-    routing
+    routing,
+    StoreModule.provideStore({ servers }),
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

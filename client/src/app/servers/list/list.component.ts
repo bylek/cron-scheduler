@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Server } from '../server.model';
 import { ServerService } from '../server.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-servers-list',
@@ -8,11 +9,13 @@ import { ServerService } from '../server.service';
 })
 export class ServersListComponent implements OnInit {
 
-  public servers: Server[];
+  public servers: Observable<Server[]>;
 
   constructor(
     private serverService: ServerService
-  ) { }
+  ) {
+    this.servers = serverService.servers;
+  }
 
   ngOnInit() {
     this.getServers();
@@ -20,15 +23,6 @@ export class ServersListComponent implements OnInit {
 
   getServers() {
     this.serverService.getServers()
-      .subscribe(
-        servers => {
-          this.servers = servers;
-        }
-      );
-  }
-
-  onRemove(server: Server){
-    const index = this.servers.indexOf(server);
-    this.servers.splice(index, 1);
+      .subscribe();
   }
 }

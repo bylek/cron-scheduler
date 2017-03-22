@@ -16,11 +16,6 @@ app.set('models', models);
 // routes
 require('./routes')(app);
 
-app.use(function(err, req, res, next) {
-  // Do logging and user-friendly error message display
-  res.status(500).send('internal server error');
-});
-
 sequelize.sync({force: false}).then(function(){
     app.listen(port);
     console.log('Listening on port ' + port);
