@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ServerService } from '../server.service';
 import { Router } from '@angular/router';
+import { Auth } from '../auth.enum';
 
 @Component({
   selector: 'app-servers-add',
@@ -10,6 +11,8 @@ import { Router } from '@angular/router';
 export class ServersAddComponent implements OnInit {
 
   form: FormGroup;
+
+  Auth = Auth;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,8 +25,16 @@ export class ServersAddComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       address: ['', Validators.required],
-      port: [22, Validators.required]
+      port: [22, Validators.required],
+      auth: [Auth[Auth.PASSWORD], Validators.required],
+      key: [''],
+      password: ['']
     });
+  }
+
+  get isKeyAuthMode() {
+    const auth = this.form.controls['auth'];
+    return auth.value == Auth[Auth.KEY];
   }
 
   onSubmit() {
@@ -33,6 +44,7 @@ export class ServersAddComponent implements OnInit {
     }
 
     const server = this.form.value;
+    console.log('server', server);
     this.serverService.createServer(server)
       .subscribe(() => {
         this.router.navigate(['/servers']);

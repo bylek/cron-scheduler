@@ -10,13 +10,24 @@ module.exports = router;
 
 async function getJobs(req, res) {
   const Job = req.app.get('models').Job;
+  const Server = req.app.get('models').Server;
 
-  const jobs = await Job.findAll({
+  const server = await Server.findOne({
     where: {
-      user_id: req.params.userId
+      id: req.params.server_id,
+      user_id: req.user.id,
     }
   });
 
+  if (!server) {
+    return res.status(403).send({
+      success: false,
+      message: 'Job doesn\'t exist.'
+    });
+  }
+
+
+  const jobs = server.getJobs();
   return res.json(jobs || []);
 }
 

@@ -4,27 +4,27 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async function(req, res) {
-  const Member = req.app.get('models').Member;
+  const User = req.app.get('models').User;
 
   let email = req.body.email;
   let password = req.body.password;
 
-  const member = await Member.findOne({where: {email: email}});
-  if (!member) {
+  const user = await User.findOne({where: {email: email}});
+  if (!user) {
     return res.json({
       success: false,
       message: 'Authentication failed. User not found.'
     });
   }
 
-  if (!member.authenticate(password)) {
+  if (!user.authenticate(password)) {
     return res.json({
       success: false,
       message: 'Authentication failed. Wrong password.'
     });
   }
 
-  const token = jwt.sign(member.getJWTPayload(), config.get('secret'), {
+  const token = jwt.sign(user.getJWTPayload(), config.get('secret'), {
     expiresIn: '1d'
   });
 

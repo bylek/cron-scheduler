@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const servers = require('./servers');
-const users = require('./users');
 const jobs = require('./jobs');
 const authenticate = require('./authenticate');
 const register = require('./register');
@@ -11,18 +10,17 @@ module.exports = function(app){
   app.use('/api/register', register);
 
   app.use('/api/servers', isAuthenticated, servers);
-  app.use('/api/servers/:serverId/users', isAuthenticated, users);
-  app.use('/api/servers/:serverId/users/:userId/jobs', isAuthenticated, jobs);
+  app.use('/api/servers/:serverId/jobs', isAuthenticated, jobs);
 };
 
 async function isAuthenticated(req, res, next) {
-  const Member = req.app.get('models').Member;
+  const User = req.app.get('models').User;
   let token = (req.headers['authorization'] || req.query.token || '').replace(/^Bearer /, '');
 
   if (token) {
-    let member;
+    let user;
     try {
-      member = await jwt.verify(token, config.get('secret'));
+      user = await jwt.verify(token, config.get('secret'));
 
     } catch (err) {
       return res.status(403).send({
@@ -31,15 +29,15 @@ async function isAuthenticated(req, res, next) {
       });
     }
 
-    member = await Member.findById(member.id);
-    if (!member) {
+    user = await User.findById(user.id);
+    if (!user) {
       return res.status(403).send({
         success: false,
         message: 'User doesn\'t exist.'
       });
     }
 
-    req.member = member;
+    req.user = user;
     return next();
 
   }

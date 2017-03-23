@@ -13,7 +13,7 @@ async function getServers(req, res) {
 
   const servers = await Server.findAll({
     where: {
-      member_id: req.member.id
+      user_id: req.user.id
     }
   });
 
@@ -24,8 +24,9 @@ async function createServer(req, res){
   const Server = req.app.get('models').Server;
 
   const data = req.body;
-  data.member_id = req.member.id;
+  data.user_id = req.user.id;
 
+  console.log('data', data);
   const server = await Server.create(data);
   return res.json(server);
 }

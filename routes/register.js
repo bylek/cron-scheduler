@@ -4,22 +4,22 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async function(req, res) {
-  const Member = req.app.get('models').Member;
+  const User = req.app.get('models').User;
 
   let email = req.body.email;
   let password = req.body.password;
   let name = req.body.name;
 
-  let member = await Member.findOne({where: {email: email}});
-  if (!member) {
-    member = await Member.create({
+  let user = await User.findOne({where: {email: email}});
+  if (!user) {
+    user = await User.create({
       email,
       password,
       name
     });
 
-    if (member) {
-      const token = jwt.sign(member.getJWTPayload(), config.get('secret'), {
+    if (user) {
+      const token = jwt.sign(user.getJWTPayload(), config.get('secret'), {
         expiresIn: '1d'
       });
 

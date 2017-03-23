@@ -14,9 +14,8 @@ const sequelize = new Sequelize(
 
 // load models
 const models = [
-  'Member',
-  'Server',
   'User',
+  'Server',
   'Job'
 ];
 models.forEach(function(model) {
@@ -25,9 +24,8 @@ models.forEach(function(model) {
 
 // describe relationships
 (function(m) {
-  m.Member.hasMany(m.Server);
-  m.Server.hasMany(m.User);
-  m.User.hasMany(m.Job);
+  m.User.hasMany(m.Server);
+  m.Server.hasMany(m.Job);
 })(module.exports);
 
 // export connection
