@@ -39,12 +39,10 @@ export class ServersAddComponent implements OnInit {
 
   onSubmit() {
     if (!this.form.valid) {
-      console.log('invalid form');
       return;
     }
 
     const server = this.form.value;
-    console.log('server', server);
     this.serverService.createServer(server)
       .subscribe(() => {
         this.router.navigate(['/servers']);

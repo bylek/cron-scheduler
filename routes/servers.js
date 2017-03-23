@@ -26,7 +26,6 @@ async function createServer(req, res){
   const data = req.body;
   data.user_id = req.user.id;
 
-  console.log('data', data);
   const server = await Server.create(data);
   return res.json(server);
 }
