@@ -16,6 +16,7 @@ import { AuthGuard } from './shared/auth.guard';
 import { AuthService } from './shared/auth.service';
 import { RegisterComponent } from './register/register.component';
 import { ServerService } from './servers/server.service';
+import { JobService } from './jobs/job.service';
 import { MenuSidebarComponent } from './menu/sidebar.component';
 import { MenuNavbarComponent } from './menu/navbar.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
@@ -24,6 +25,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StoreModule } from '@ngrx/store';
 import { servers } from './servers/server.store';
+import { jobs } from './jobs/job.store';
+import { JobsListComponent } from './jobs/list/list.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -44,14 +47,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthLayoutComponent,
     MainLayoutComponent,
     DashboardComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    JobsListComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
     routing,
-    StoreModule.provideStore({ servers }),
+    StoreModule.provideStore({ servers, jobs }),
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -62,7 +66,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     },
     AuthGuard,
     AuthService,
-    ServerService
+    ServerService,
+    JobService
   ],
   bootstrap: [AppComponent]
 })

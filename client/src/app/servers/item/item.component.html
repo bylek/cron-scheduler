@@ -1,9 +1,12 @@
-<h3 class="page-title">Server</h3>
+<div *ngIf="server">
+  <h3 class="page-title pull-left">Server: {{server.name}}</h3>
 
-<div class="panel">
-  <div class="panel-body">
-    <div class="row">
-      test
-    </div>
+  <div class="pull-right" *ngIf="server">
+    <a class="btn btn-primary" [routerLink]="['/servers', server.id, 'edit']">
+      <i class="fa fa-pencil"></i> Edit server
+    </a>
   </div>
+  <div class="clearfix"></div>
 </div>
+
+<app-jobs-list></app-jobs-list>

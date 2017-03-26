@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Server } from '../server.model';
 import { ServerService } from '../server.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-servers-list',
@@ -9,12 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class ServersListComponent implements OnInit {
 
-  public servers: Observable<Server[]>;
+  public servers: Server[];
 
   constructor(
     private serverService: ServerService
   ) {
-    this.servers = serverService.servers;
+    serverService.servers
+      .subscribe(servers => this.servers = servers);
   }
 
   ngOnInit() {

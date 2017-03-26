@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', getServers);
+router.get('/:serverId', getServer);
 router.post('/', createServer);
 router.patch('/:serverId', updateServer);
 router.delete('/:serverId', deleteServer);
@@ -18,6 +19,19 @@ async function getServers(req, res) {
   });
 
   return res.json(servers || []);
+}
+
+async function getServer(req, res) {
+  const Server = req.app.get('models').Server;
+
+  const server = await Server.findOne({
+    where: {
+      user_id: req.user.id,
+      id: req.params.serverId
+    }
+  });
+
+  return res.json(server);
 }
 
 async function createServer(req, res){

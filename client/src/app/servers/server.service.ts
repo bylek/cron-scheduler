@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractService } from '../shared/abstract.service';
 import { AuthHttp } from 'angular2-jwt';
-import { Response } from '@angular/http';
 import { Server } from './server.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -22,6 +21,11 @@ export class ServerService extends AbstractService {
   getServers() {
     return this.request('get', 'servers', null, res => res.json())
       .map(servers => this.store.dispatch({type: 'ADD_SERVERS', payload: servers}));
+  }
+
+  getServer(id: Number) {
+    return this.request('get', `servers/${id}`, null, res => res.json())
+      .map(server => this.store.dispatch({type: 'ADD_SERVER', payload: server}));
   }
 
   updateServer(server: Server, data: Object) {

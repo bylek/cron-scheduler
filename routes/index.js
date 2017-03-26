@@ -10,7 +10,7 @@ module.exports = function(app){
   app.use('/api/register', register);
 
   app.use('/api/servers', isAuthenticated, servers);
-  app.use('/api/servers/:serverId/jobs', isAuthenticated, jobs);
+  app.use('/api/jobs', isAuthenticated, jobs);
 };
 
 async function isAuthenticated(req, res, next) {

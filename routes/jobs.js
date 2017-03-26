@@ -9,12 +9,11 @@ router.delete('/:jobId', deleteJob);
 module.exports = router;
 
 async function getJobs(req, res) {
-  const Job = req.app.get('models').Job;
   const Server = req.app.get('models').Server;
 
   const server = await Server.findOne({
     where: {
-      id: req.params.server_id,
+      id: req.query.server_id,
       user_id: req.user.id,
     }
   });
@@ -22,12 +21,12 @@ async function getJobs(req, res) {
   if (!server) {
     return res.status(403).send({
       success: false,
-      message: 'Job doesn\'t exist.'
+      message: 'Server doesn\'t exist.'
     });
   }
 
 
-  const jobs = server.getJobs();
+  const jobs = await server.getJobs();
   return res.json(jobs || []);
 }
 

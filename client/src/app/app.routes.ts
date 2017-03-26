@@ -22,7 +22,7 @@ export const routes: Routes = [
       { path: '', component: DashboardComponent },
       { path: 'servers', component: ServersListComponent },
       { path: 'servers/add', component: ServersAddComponent },
-      { path: 'servers/:id', component: ServersItemComponent }
+      { path: 'servers/:server_id', component: ServersItemComponent }
     ]
   },
   {

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Server } from '../server.model';
 import { ServerService } from '../server.service';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-servers-item',
@@ -8,17 +10,30 @@ import { ServerService } from '../server.service';
 })
 export class ServersItemComponent implements OnInit {
 
+  serverId: Number;
+
   server: Server;
 
   constructor(
-    private serverService: ServerService
-  ) { }
+    private serverService: ServerService,
+    private route: ActivatedRoute
+  ) {
+    serverService.servers
+      .subscribe(servers => {
+        this.server = servers.find(({id}) => id == this.serverId);
+      });
+  }
 
   ngOnInit() {
     this.getServer()
   }
 
   getServer() {
-    // this.serverService.getServer()
+    this.route.params
+      .switchMap((params: Params) => {
+        this.serverId = +params['server_id'];
+        return this.serverService.getServer(this.serverId);
+      })
+      .subscribe();
   }
 }

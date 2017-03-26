@@ -7,16 +7,10 @@
   <div class="sidebar-scroll">
     <nav>
       <ul class="nav">
-        <li>
-          <a [routerLink]="['/']">
-            <i class="lnr lnr-home"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['/servers']">
-            <i class="lnr lnr-inbox"></i>
-            <span>Servers</span>
+        <li *ngFor="let item of items">
+          <a [routerLink]="[item.url]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: item.exact}">
+            <i class="lnr {{item.cls}}"></i>
+            <span>{{item.name}}</span>
           </a>
         </li>
       </ul>
