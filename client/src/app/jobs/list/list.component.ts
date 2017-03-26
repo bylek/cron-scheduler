@@ -25,17 +25,15 @@ export class JobsListComponent implements OnInit {
 
   ngOnInit() {
     this.getJobs();
-    // console.log('server id', this.serverId);
   }
 
   getJobs() {
-
-  this.route.params
-    .switchMap((params: Params) => {
-      this.serverId = +params['server_id'];
-      return this.jobService.getJobs(this.serverId);
-    })
-    .subscribe();
+    this.route.params
+      .switchMap((params: Params) => {
+        this.serverId = +params['server_id'];
+        return this.jobService.getJobs(this.serverId);
+      })
+      .subscribe();
   }
 
 }

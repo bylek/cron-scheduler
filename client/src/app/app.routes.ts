@@ -11,6 +11,7 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { JobsAddComponent } from './jobs/add/add.component';
 
 // Route Configuration
 export const routes: Routes = [
@@ -22,7 +23,8 @@ export const routes: Routes = [
       { path: '', component: DashboardComponent },
       { path: 'servers', component: ServersListComponent },
       { path: 'servers/add', component: ServersAddComponent },
-      { path: 'servers/:server_id', component: ServersItemComponent }
+      { path: 'servers/:server_id', component: ServersItemComponent },
+      { path: 'servers/:server_id/jobs/add', component: JobsAddComponent }
     ]
   },
   {

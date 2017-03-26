@@ -1,7 +1,23 @@
 <div class="panel">
+  <a [routerLink]="['/servers', serverId, 'jobs', 'add']">Add a new job</a>
   <div class="panel-body">
-    <div class="row">
-      test
-    </div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Command</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobs">
+          <td>{{job.name}}</td>
+          <td>{{job.description}}</td>
+          <td>{{job.command}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

@@ -34,8 +34,6 @@ async function createJob(req, res){
   const Job = req.app.get('models').Job;
 
   const data = req.body;
-  data.server_id = req.params.serverId;
-
   const job = await Job.create(data);
   return res.json(job);
 }
