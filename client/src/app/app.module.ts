@@ -18,10 +18,8 @@ import { RegisterComponent } from './register/register.component';
 import { ServerService } from './servers/server.service';
 import { JobService } from './jobs/job.service';
 import { MenuSidebarComponent } from './menu/sidebar.component';
-import { MenuNavbarComponent } from './menu/navbar.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StoreModule } from '@ngrx/store';
 import { servers } from './servers/server.store';
@@ -44,10 +42,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ServersItemComponent,
     ServersAddComponent,
     MenuSidebarComponent,
-    MenuNavbarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    DashboardComponent,
     NotFoundComponent,
     JobsListComponent,
     JobsAddComponent

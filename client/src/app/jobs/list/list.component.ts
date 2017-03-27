@@ -36,4 +36,13 @@ export class JobsListComponent implements OnInit {
       .subscribe();
   }
 
+  onRemove(job: Job) {
+    const canRemove = confirm('Are you sure?');
+    if (canRemove) {
+      this.jobService.deleteJob(job)
+        .subscribe();
+
+    }
+  }
+
 }

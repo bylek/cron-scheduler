@@ -1,8 +1,8 @@
 <div class="sidebar">
   <div class="brand">
-    <a [routerLink]="['/']">
-      <img src="assets/img/logo.png" alt="CRON Logo" class="img-responsive logo">
-    </a>
+    <h3 class="brand-title">
+      <a [routerLink]="['/']">CRON Scheduler</a>
+    </h3>
   </div>
   <div class="sidebar-scroll">
     <nav>
@@ -16,4 +16,8 @@
       </ul>
     </nav>
   </div>
+  <a href="#" (click)="onLogout()" class="footer">
+    <i class="lnr lnr-exit"></i>
+    <span>Logout</span>
+  </a>
 </div>

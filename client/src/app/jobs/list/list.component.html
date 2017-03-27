@@ -1,5 +1,13 @@
 <div class="panel">
-  <a [routerLink]="['/servers', serverId, 'jobs', 'add']">Add a new job</a>
+  <div class="panel-heading">
+    <h3 class="page-title pull-left">Jobs</h3>
+
+    <div class="pull-right">
+      <a [routerLink]="['jobs', 'add']">Add a new job</a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
   <div class="panel-body">
     <table class="table table-striped">
       <thead>
@@ -12,10 +20,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let job of jobs">
-          <td>{{job.name}}</td>
+          <td>
+            <a [routerLink]="['jobs', job.id]">
+              {{job.name}}
+            </a>
+          </td>
           <td>{{job.description}}</td>
           <td>{{job.command}}</td>
-          <td></td>
+          <td><a (click)="onRemove(job)">Remove</a></td>
         </tr>
       </tbody>
     </table>

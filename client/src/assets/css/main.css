@@ -39,6 +39,14 @@ th {
   padding: 30px;
 }
 
+.brand-title {
+  margin: 0;
+}
+
+.brand-title a {
+  color: #ffffff;
+}
+
 .page-title {
   margin-top: 0;
   margin-bottom: 30px;
@@ -315,12 +323,12 @@ button.toast-close-button {
   bottom: 0;
   width: 100%;
   padding: 20px 30px;
-  background-color: #41B314;
+  background-color: #20262e;
   color: #fff;
 }
 #wrapper .sidebar .footer:hover, #wrapper .sidebar .footer:focus {
   text-decoration: none;
-  background-color: #3ca512;
+  background-color: #191e25;
 }
 #wrapper .sidebar .footer i {
   margin-right: 10px;

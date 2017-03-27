@@ -9,7 +9,6 @@ import { AuthGuard } from './shared/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { JobsAddComponent } from './jobs/add/add.component';
 
@@ -20,7 +19,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: DashboardComponent },
+      { path: '', redirectTo: '/servers', pathMatch: 'full'},
       { path: 'servers', component: ServersListComponent },
       { path: 'servers/add', component: ServersAddComponent },
       { path: 'servers/:server_id', component: ServersItemComponent },
