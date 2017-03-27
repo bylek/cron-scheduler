@@ -5,5 +5,9 @@
     "name": "cronScheduler",
     "username": "root",
     "password": "root"
+  },
+  "encryption": {
+    "algorithm": "aes-256-ctr",
+    "salt": "d6F3Efeq"
   }
 }
