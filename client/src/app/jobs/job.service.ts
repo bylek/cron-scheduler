@@ -19,7 +19,7 @@ export class JobService extends AbstractService {
     this.jobs = store.select('jobs');
   }
 
-  getJobs(serverId: Number) {
+  getJobs(serverId: number) {
     let options = null;
     if (serverId) {
       let params: URLSearchParams = new URLSearchParams();
@@ -31,7 +31,7 @@ export class JobService extends AbstractService {
       .map(jobs => this.store.dispatch({type: 'ADD_JOBS', payload: jobs}));
   }
 
-  getJob(id: Number) {
+  getJob(id: number) {
     return this.request('get', `jobs/${id}`, null, res => res.json())
       .map(job => this.store.dispatch({type: 'ADD_JOB', payload: job}));
   }

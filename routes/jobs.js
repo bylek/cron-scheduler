@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', getJobs);
+router.get('/:jobId', getJob);
 router.post('/', createJob);
 router.patch('/:jobId', updateJob);
 router.delete('/:jobId', deleteJob);
@@ -28,6 +29,13 @@ async function getJobs(req, res) {
 
   const jobs = await server.getJobs();
   return res.json(jobs || []);
+}
+
+async function getJob(req, res) {
+  const Job = req.app.get('models').Job;
+
+  const job = await Job.findById(req.params.jobId);
+  return res.json(job);
 }
 
 async function createJob(req, res){

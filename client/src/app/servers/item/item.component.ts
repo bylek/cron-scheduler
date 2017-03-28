@@ -10,7 +10,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class ServersItemComponent implements OnInit {
 
-  serverId: Number;
+  serverId: number;
 
   server: Server;
 

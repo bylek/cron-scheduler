@@ -9,7 +9,7 @@
   </div>
 
   <div class="panel-body">
-    <table class="table table-striped">
+    <table class="table table-striped" *ngIf="jobs && jobs.length">
       <thead>
       <tr>
         <th>Name</th>
@@ -21,7 +21,7 @@
       <tbody>
         <tr *ngFor="let job of jobs">
           <td>
-            <a [routerLink]="['jobs', job.id]">
+            <a [routerLink]="['jobs', job.id, 'edit']">
               {{job.name}}
             </a>
           </td>
@@ -31,5 +31,9 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="alert alert-info" *ngIf="isFetched && (!jobs || jobs.length == 0)">
+      <i class="fa fa-info-circle"></i> Jobs not found
+    </div>
   </div>
 </div>

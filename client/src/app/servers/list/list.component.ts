@@ -14,7 +14,10 @@ export class ServersListComponent implements OnInit {
     private serverService: ServerService
   ) {
     serverService.servers
-      .subscribe(servers => this.servers = servers);
+      .subscribe(servers => {
+        console.log('servers', servers, servers.length);
+        this.servers = servers;
+      });
   }
 
   ngOnInit() {

@@ -23,7 +23,7 @@ export class ServerService extends AbstractService {
       .map(servers => this.store.dispatch({type: 'ADD_SERVERS', payload: servers}));
   }
 
-  getServer(id: Number) {
+  getServer(id: number) {
     return this.request('get', `servers/${id}`, null, res => res.json())
       .map(server => this.store.dispatch({type: 'ADD_SERVER', payload: server}));
   }

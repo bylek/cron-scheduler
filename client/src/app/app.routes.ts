@@ -12,6 +12,7 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { JobsAddComponent } from './jobs/add/add.component';
 import { ServersEditComponent } from './servers/edit/edit.component';
+import { JobsEditComponent } from './jobs/edit/edit.component';
 
 // Route Configuration
 export const routes: Routes = [
@@ -20,12 +21,14 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: '/servers', pathMatch: 'full'},
+      { path: '', redirectTo: '/servers', pathMatch: 'full' },
       { path: 'servers', component: ServersListComponent },
       { path: 'servers/add', component: ServersAddComponent },
       { path: 'servers/:server_id', component: ServersItemComponent },
       { path: 'servers/:server_id/edit', component: ServersEditComponent },
-      { path: 'servers/:server_id/jobs/add', component: JobsAddComponent }
+      { path: 'servers/:server_id/jobs', redirectTo: '/servers/:server_id', pathMatch: 'full' },
+      { path: 'servers/:server_id/jobs/add', component: JobsAddComponent },
+      { path: 'servers/:server_id/jobs/:job_id/edit', component: JobsEditComponent }
     ]
   },
   {

@@ -9,7 +9,9 @@ import { Job } from '../job.model';
 })
 export class JobsListComponent implements OnInit {
 
-  serverId: Number;
+  serverId: number;
+
+  isFetched: boolean = false;
 
   jobs: Job[];
 
@@ -33,7 +35,9 @@ export class JobsListComponent implements OnInit {
         this.serverId = +params['server_id'];
         return this.jobService.getJobs(this.serverId);
       })
-      .subscribe();
+      .subscribe(() => {
+        this.isFetched = true;
+      });
   }
 
   onRemove(job: Job) {

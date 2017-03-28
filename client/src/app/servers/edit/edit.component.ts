@@ -9,7 +9,7 @@ import { Server } from '../server.model';
 })
 export class ServersEditComponent implements OnInit {
 
-  serverId: Number;
+  serverId: number;
 
   server: Server;
 
@@ -40,7 +40,6 @@ export class ServersEditComponent implements OnInit {
   onSubmit(server: Server) {
     this.serverService.updateServer(this.server, server)
       .subscribe(() => {
-
         this.router.navigate(['../'], { relativeTo: this.route });
       });
   }

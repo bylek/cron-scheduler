@@ -1,0 +1,24 @@
+<form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label class="control-label">Name</label>
+    <input type="text" class="form-control" formControlName="name" placeholder="Eg. Sync date">
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Description</label>
+    <input type="text" class="form-control" formControlName="description" placeholder="Eg. Sync date job">
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Command</label>
+    <input type="text" class="form-control" formControlName="command">
+  </div>
+
+  <div class="form-footer">
+    <div class="pull-right">
+      <a class="btn btn-link" [routerLink]="['../../']">Cancel</a>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</form>

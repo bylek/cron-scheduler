@@ -28,6 +28,8 @@ import { servers } from './servers/server.store';
 import { jobs } from './jobs/job.store';
 import { JobsListComponent } from './jobs/list/list.component';
 import { JobsAddComponent } from './jobs/add/add.component';
+import { JobsFormComponent } from './jobs/form/form.component';
+import { JobsEditComponent } from './jobs/edit/edit.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -50,7 +52,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MainLayoutComponent,
     NotFoundComponent,
     JobsListComponent,
-    JobsAddComponent
+    JobsFormComponent,
+    JobsAddComponent,
+    JobsEditComponent
   ],
   imports: [
     BrowserModule,
