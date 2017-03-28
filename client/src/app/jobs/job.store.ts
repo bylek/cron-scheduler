@@ -5,9 +5,8 @@ export const jobs = (state: any = [], {type, payload}) => {
     case 'ADD_JOB':
       const job = state.find(({id}) => id == payload.id);
       if (job) {
-        return state.map(item => {
-          return item.id === payload.id ? Object.assign({}, item, payload) : item;
-        });
+        Object.assign(job, payload);
+        return [...state];
       }
 
       return [

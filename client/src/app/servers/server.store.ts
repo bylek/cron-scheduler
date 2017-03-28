@@ -4,7 +4,10 @@ export const servers = (state: any = [], {type, payload}) => {
       return payload;
     case 'ADD_SERVER':
       const server = state.find(({id}) => id == payload.id);
-      if (server) Object.assign(server, payload);
+      if (server) {
+        Object.assign(server, payload);
+        return [...state];
+      }
 
       return [
         ...state,
