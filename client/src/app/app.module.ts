@@ -10,7 +10,9 @@ import { routing } from './app.routes';
 import { ServersListComponent } from './servers/list/list.component';
 import { ServersListItemComponent } from './servers/list/item.component';
 import { ServersItemComponent } from './servers/item/item.component';
+import { ServersFormComponent } from './servers/form/form.component';
 import { ServersAddComponent } from './servers/add/add.component';
+import { ServersEditComponent } from './servers/edit/edit.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth.guard';
 import { AuthService } from './shared/auth.service';
@@ -41,6 +43,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ServersListItemComponent,
     ServersItemComponent,
     ServersAddComponent,
+    ServersEditComponent,
+    ServersFormComponent,
     MenuSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,

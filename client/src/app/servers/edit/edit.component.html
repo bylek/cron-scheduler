@@ -1,0 +1,9 @@
+<h3 class="page-title">Edit server: {{server?.name}}</h3>
+
+<div class="row">
+  <div class="panel">
+    <div class="panel-body">
+      <app-servers-form [server]="server" (afterSubmit)="onSubmit($event)"></app-servers-form>
+    </div>
+  </div>
+</div>

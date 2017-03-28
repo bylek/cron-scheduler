@@ -1,51 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
 import { ServerService } from '../server.service';
-import { Router } from '@angular/router';
-import { Auth } from '../auth.enum';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Server } from '../server.model';
 
 @Component({
   selector: 'app-servers-add',
   templateUrl: 'add.component.html'
 })
-export class ServersAddComponent implements OnInit {
-
-  form: FormGroup;
-
-  Auth = Auth;
+export class ServersAddComponent {
 
   constructor(
-    private formBuilder: FormBuilder,
     private serverService: ServerService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: [''],
-      address: ['', Validators.required],
-      port: [22, Validators.required],
-      auth: [Auth[Auth.PASSWORD], Validators.required],
-      key: [''],
-      password: ['']
-    });
-  }
-
-  get isKeyAuthMode() {
-    const auth = this.form.controls['auth'];
-    return auth.value == Auth[Auth.KEY];
-  }
-
-  onSubmit() {
-    if (!this.form.valid) {
-      return;
-    }
-
-    const server = this.form.value;
+  onSubmit(server: Server) {
     this.serverService.createServer(server)
       .subscribe(() => {
-        this.router.navigate(['/servers']);
+        this.router.navigate(['../'], { relativeTo: this.route });
       });
   }
 
