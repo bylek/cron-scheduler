@@ -59,12 +59,13 @@ class ServerService {
       const command = this.getUpdateCronCommand(await server.getJobs());
       const connectionData = server.getConnectionData();
 
-      try {
-        exec(command, connectionData);
+      exec(command, connectionData, function(err){
+        if (err) {
+          //err.code === 'ENOTFOUND'
+          console.log('[runSyncJobsOnServer] ' + err.message);
 
-      } catch (err) {
-        console.log('[runSyncJobsOnServer] ' + err.message);
-      }
+        }
+      });
     }
   }
 
