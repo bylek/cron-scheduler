@@ -1,11 +1,21 @@
+var exec = require('ssh-exec');
+
 class ServerService {
 
   constructor(app) {
-    this.server = app.get('models').Server;
+    this.app = app;
+  }
+
+  getServerModel() {
+    return this.app.get('models').Server;
+  }
+
+  getJobService() {
+    return this.app.get('services').Job;
   }
 
   async getServersByUserId(userId){
-    return await this.server.findAll({
+    return await this.getServerModel().findAll({
       where: {
         user_id: userId
       }
@@ -13,17 +23,16 @@ class ServerService {
   }
 
   async getServerById(id, userId){
-    return await this.server.findOne({
-      where: {
-        user_id: userId,
-        id: id
-      }
-    });
+    const where = { id };
+    if (userId) {
+      where.user_id = userId;
+    }
+    return await this.getServerModel().findOne({ where });
   }
 
   async createServer(data, userId){
     data.user_id = userId;
-    return await this.server.create(data);
+    return await this.getServerModel().create(data);
   }
 
   async updateServer(id, data, userId){
@@ -42,6 +51,38 @@ class ServerService {
     }
 
     await server.destroy();
+  }
+
+  async runSyncJobsOnServer(serverId){
+    const server = await this.getServerById(serverId);
+    if (server) {
+      const command = this.getUpdateCronCommand(await server.getJobs());
+      const connectionData = server.getConnectionData();
+
+      try {
+        exec(command, connectionData);
+
+      } catch (err) {
+        console.log('[runSyncJobsOnServer] ' + err.message);
+      }
+    }
+  }
+
+  getUpdateCronCommand(jobs) {
+    if (!jobs || jobs.length === 0) {
+      return 'crontab -r';
+    }
+
+    const entries = [];
+    jobs.forEach(function(job){
+      entries.push(job.get('cron_entry') + ' ' + job.get('command'));
+    });
+
+    const base64entry = new Buffer(
+      entries.join('\n')
+    ).toString('base64');
+
+    return `echo "${base64entry}" | base64 --decode | crontab -`;
   }
 
 }

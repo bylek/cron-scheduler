@@ -28,6 +28,7 @@ export class ServersFormComponent implements OnInit {
       description: [''],
       address: ['', Validators.required],
       port: [22, Validators.required],
+      user: ['', Validators.required],
       auth: [Auth[Auth.PASSWORD], Validators.required],
       key: [''],
       password: ['']

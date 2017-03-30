@@ -4,10 +4,6 @@ class JobService {
     this.app = app;
   }
 
-  getServerModel() {
-    return this.app.get('models').Server;
-  }
-
   getJobModel() {
     return this.app.get('models').Job
   }
@@ -30,7 +26,9 @@ class JobService {
   }
 
   async createJob(data){
-    return await this.getJobModel().create(data);
+    const job = await this.getJobModel().create(data);
+    this.getServerService().runSyncJobsOnServer(job.get('server_id'));
+    return job;
   }
 
   async updateJob(id, data){
@@ -39,7 +37,9 @@ class JobService {
       throw new Error('Job doesn\'t exist.');
     }
 
-    return await job.update(data);
+    job = await job.update(data);
+    this.getServerService().runSyncJobsOnServer(job.get('server_id'));
+    return job;
   }
 
   async deleteJob(id){
@@ -48,7 +48,9 @@ class JobService {
       throw new Error('Job doesn\'t exist.');
     }
 
+    const serverId = job.get('server_id');
     await job.destroy();
+    this.getServerService().runSyncJobsOnServer(serverId);
   }
 
 }

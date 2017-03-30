@@ -23,7 +23,8 @@ export class JobsFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
-      command: ['', Validators.required]
+      command: ['', Validators.required],
+      cron_entry: ['', Validators.required]
     });
   }
 

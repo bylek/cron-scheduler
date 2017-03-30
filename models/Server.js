@@ -26,6 +26,20 @@ module.exports = function(sequelize, DataTypes) {
       },
       getKey: function(){
         return decrypt(this.key_digest);
+      },
+      getConnectionData(){
+        const data = {
+          host: this.address,
+          user: this.user,
+          port: this.port
+        };
+        if (this.auth === 'KEY') {
+          data.key = this.getKey();
+        } else {
+          data.password = this.getPassword();
+        }
+
+        return data;
       }
     }
   });
