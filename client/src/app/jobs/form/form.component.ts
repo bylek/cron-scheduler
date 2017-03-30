@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { JobService } from '../job.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Job } from '../job.model';
+import { Type } from '../type.enum';
 
 @Component({
   selector: 'app-jobs-form',
@@ -11,6 +10,8 @@ import { Job } from '../job.model';
 export class JobsFormComponent implements OnInit {
 
   form: FormGroup;
+
+  Type = Type;
 
   @Output()
   afterSubmit: EventEmitter<any> = new EventEmitter();
@@ -24,8 +25,14 @@ export class JobsFormComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       command: ['', Validators.required],
-      cron_entry: ['', Validators.required]
+      type: [Type[Type.HOURLY], Validators.required],
+      cron_entry: ['']
     });
+  }
+
+  get isCustomType() {
+    const type = this.form.controls['type'];
+    return type.value == Type[Type.CUSTOM];
   }
 
   @Input()

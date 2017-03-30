@@ -2,6 +2,9 @@
   <h3 class="page-title pull-left">Server: {{server.name}}</h3>
 
   <div class="pull-right" *ngIf="server">
+    <a class="btn btn-default" (click)="syncServer()">
+      <i class="fa fa-refresh" [class.fa-spin]="server.syncing"></i> Sync server
+    </a>
     <a class="btn btn-primary" [routerLink]="['/servers', server.id, 'edit']">
       <i class="fa fa-pencil"></i> Edit server
     </a>
@@ -9,4 +12,4 @@
   <div class="clearfix"></div>
 </div>
 
-<app-jobs-list></app-jobs-list>
+<app-jobs-list [server]="server"></app-jobs-list>

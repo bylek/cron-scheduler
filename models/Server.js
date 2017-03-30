@@ -15,7 +15,12 @@ module.exports = function(sequelize, DataTypes) {
     key_digest: DataTypes.TEXT,
     key: DataTypes.VIRTUAL,
     password_digest: DataTypes.STRING,
-    password: DataTypes.VIRTUAL
+    password: DataTypes.VIRTUAL,
+    syncing: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    error_message: DataTypes.TEXT
   }, {
     tableName: 'servers',
     underscored: true,

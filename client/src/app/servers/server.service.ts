@@ -43,4 +43,9 @@ export class ServerService extends AbstractService {
       .map(() => this.store.dispatch({type: 'DELETE_SERVER', payload: server}));
   }
 
+  syncServer(server: Server) {
+    return this.request('post', `servers/${server.id}/sync`, null, res => res.json())
+      .map(() => this.store.dispatch({type: 'UPDATE_SERVER', payload: server}));
+  }
+
 }

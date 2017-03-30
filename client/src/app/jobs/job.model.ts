@@ -4,4 +4,7 @@ export interface Job {
   name: string;
   description: string;
   command: string;
+  type: string;
+  cron_entry: string;
+  active: boolean
 }

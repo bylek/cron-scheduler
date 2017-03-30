@@ -6,6 +6,7 @@ router.get('/:serverId', getServer);
 router.post('/', createServer);
 router.patch('/:serverId', updateServer);
 router.delete('/:serverId', deleteServer);
+router.post('/:serverId/sync', syncServer);
 
 module.exports = router;
 
@@ -45,6 +46,7 @@ async function updateServer(req, res){
   }
 }
 
+
 async function deleteServer(req, res){
   const ServerService = req.app.get('services').Server;
 
@@ -52,4 +54,18 @@ async function deleteServer(req, res){
   res.json({
     success: true
   });
+}
+
+async function syncServer(req, res){
+  const ServerService = req.app.get('services').Server;
+
+  const server = await ServerService.runSyncJobsOnServer(req.params.serverId);
+  if (!server) {
+    return res.status(403).send({
+      success: false,
+      message: 'Server doesn\'t exist.'
+    });
+  }
+
+  return res.json(server);
 }

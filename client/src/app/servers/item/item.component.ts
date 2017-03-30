@@ -12,6 +12,8 @@ export class ServersItemComponent implements OnInit {
 
   serverId: number;
 
+  interval: any;
+
   server: Server;
 
   constructor(
@@ -30,10 +32,28 @@ export class ServersItemComponent implements OnInit {
 
   getServer() {
     this.route.params
-      .switchMap((params: Params) => {
+      .map((params: Params) => {
         this.serverId = +params['server_id'];
-        return this.serverService.getServer(this.serverId);
       })
+      .subscribe(() => {
+        this.fetchServer();
+      });
+  }
+
+  fetchServer() {
+    this.serverService.getServer(this.serverId)
+      .subscribe();
+
+    this.interval = Observable
+      .interval(2000)
+      .subscribe(() => {
+        this.serverService.getServer(this.serverId)
+          .subscribe();
+      });
+  }
+
+  syncServer() {
+    this.serverService.syncServer(this.server)
       .subscribe();
   }
 }

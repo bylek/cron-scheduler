@@ -11,7 +11,6 @@ router.post('/', async function(req, res) {
 
   try {
     const token = await UserService.authenticate(email, password);
-    console.log('token', token);
     return res.json({
       success: true,
       message: 'Authentication successful!',

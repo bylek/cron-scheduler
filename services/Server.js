@@ -58,25 +58,35 @@ class ServerService {
     if (server) {
       const command = this.getUpdateCronCommand(await server.getJobs());
       const connectionData = server.getConnectionData();
+      connectionData.readyTimeout = 2000;
+
+      const data = { syncing: true };
+      if (server.get('error_message')) {
+        data.error_message = null;
+      }
+      server.update(data);
 
       exec(command, connectionData, function(err){
+        const data = { syncing: false };
         if (err) {
-          //err.code === 'ENOTFOUND'
-          console.log('[runSyncJobsOnServer] ' + err.message);
-
+          data.error_message = err.message;
         }
+        server.update(data);
       });
     }
+
+    return server;
   }
 
   getUpdateCronCommand(jobs) {
-    if (!jobs || jobs.length === 0) {
-      return 'crontab -r';
+    const activeJobs = jobs.filter(job => job.get('active'));
+    if (!activeJobs || activeJobs.length === 0) {
+      return 'crontab -r || true';
     }
 
     const entries = [];
-    jobs.forEach(function(job){
-      entries.push(job.get('cron_entry') + ' ' + job.get('command'));
+    activeJobs.forEach(function(job){
+      entries.push(job.getCronEntry() + ' ' + job.get('command'));
     });
 
     const base64entry = new Buffer(

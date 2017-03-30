@@ -9,12 +9,17 @@
   </div>
 
   <div class="panel-body">
+    <div class="alert alert-danger" *ngIf="server && server.error_message && !server.syncing">
+      <i class="fa fa-info-circle"></i> {{server.error_message}}
+    </div>
+
     <table class="table table-striped" *ngIf="jobs && jobs.length">
       <thead>
       <tr>
         <th>Name</th>
         <th>Description</th>
         <th>Command</th>
+        <th>Active</th>
         <th>Action</th>
       </tr>
       </thead>
@@ -27,6 +32,11 @@
           </td>
           <td>{{job.description}}</td>
           <td>{{job.command}}</td>
+          <td>
+            <a (click)="toggleActive(job)">
+              {{job.active ? 'Active' : 'Inactive'}}
+            </a>
+          </td>
           <td><a (click)="onRemove(job)">Remove</a></td>
         </tr>
       </tbody>
