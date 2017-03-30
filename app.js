@@ -13,6 +13,10 @@ const models = require('./models');
 const sequelize = models.sequelize;
 app.set('models', models);
 
+//services
+const services = require('./services')(app);
+app.set('services', services);
+
 // routes
 require('./routes')(app);
 

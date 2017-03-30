@@ -4,35 +4,27 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async function(req, res) {
-  const User = req.app.get('models').User;
+  const UserService = req.app.get('services').User;
 
   let email = req.body.email;
   let password = req.body.password;
 
-  const user = await User.findOne({where: {email: email}});
-  if (!user) {
+  try {
+    const token = await UserService.authenticate(email, password);
+    console.log('token', token);
+    return res.json({
+      success: true,
+      message: 'Authentication successful!',
+      token: token
+    });
+
+  } catch (err) {
     return res.json({
       success: false,
-      message: 'Authentication failed. User not found.'
+      message: err.message
     });
+
   }
-
-  if (!user.authenticate(password)) {
-    return res.json({
-      success: false,
-      message: 'Authentication failed. Wrong password.'
-    });
-  }
-
-  const token = jwt.sign(user.getJWTPayload(), config.get('secret'), {
-    expiresIn: '1d'
-  });
-
-  return res.json({
-    success: true,
-    message: 'Authentication successful!',
-    token: token
-  });
 });
 
 module.exports = router;

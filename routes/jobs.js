@@ -10,70 +10,64 @@ router.delete('/:jobId', deleteJob);
 module.exports = router;
 
 async function getJobs(req, res) {
-  const Server = req.app.get('models').Server;
+  const JobService = req.app.get('services').Job;
 
-  const server = await Server.findOne({
-    where: {
-      id: req.query.server_id,
-      user_id: req.user.id,
-    }
-  });
+  try {
+    const jobs = await JobService.getJobsByServerId(req.query.server_id, req.user.id);
+    return res.json(jobs || []);
 
-  if (!server) {
+  } catch (err) {
     return res.status(403).send({
       success: false,
-      message: 'Server doesn\'t exist.'
+      message: err.message
     });
   }
-
-
-  const jobs = await server.getJobs();
-  return res.json(jobs || []);
 }
 
 async function getJob(req, res) {
-  const Job = req.app.get('models').Job;
+  const JobService = req.app.get('services').Job;
 
-  const job = await Job.findById(req.params.jobId);
+  const job = await JobService.getJobById(req.params.jobId);
   return res.json(job);
 }
 
 async function createJob(req, res){
-  const Job = req.app.get('models').Job;
+  const JobService = req.app.get('services').Job;
 
-  const data = req.body;
-  const job = await Job.create(data);
+  const job = await JobService.createJob(req.body);
   return res.json(job);
 }
 
 async function updateJob(req, res){
-  const Job = req.app.get('models').Job;
+  const JobService = req.app.get('services').Job;
 
-  let job = await Job.findById(req.params.jobId);
-  if (!job) {
+  try {
+    const job = await JobService.updateJob(req.params.jobId, req.body);
+    return res.json(job);
+
+  } catch (err) {
     return res.status(403).send({
       success: false,
-      message: 'Job doesn\'t exist.'
+      message: err.message
     });
-  }
 
-  job = await job.update(req.body);
-  return res.json(job);
+  }
 }
 
 async function deleteJob(req, res){
-  const Job = req.app.get('models').Job;
+  const JobService = req.app.get('services').Job;
 
-  const job = await Job.findById(req.params.jobId);
-  if (!job) {
+  try {
+    await JobService.deleteJob(req.params.jobId);
+    return res.json({
+      success: true
+    });
+
+  } catch (err) {
     return res.status(403).send({
       success: false,
-      message: 'User doesn\'t exist.'
+      message: err.message
     });
-  }
 
-  await job.destroy();
-  res.json({
-    success: true
-  });
+  }
 }

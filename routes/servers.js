@@ -10,67 +10,45 @@ router.delete('/:serverId', deleteServer);
 module.exports = router;
 
 async function getServers(req, res) {
-  const Server = req.app.get('models').Server;
-
-  const servers = await Server.findAll({
-    where: {
-      user_id: req.user.id
-    }
-  });
+  const ServerService = req.app.get('services').Server;
+  const servers = await ServerService.getServersByUserId(req.user.id);
 
   return res.json(servers || []);
 }
 
 async function getServer(req, res) {
-  const Server = req.app.get('models').Server;
+  const ServerService = req.app.get('services').Server;
 
-  const server = await Server.findOne({
-    where: {
-      user_id: req.user.id,
-      id: req.params.serverId
-    }
-  });
-
+  const server = await ServerService.getServerById(req.params.serverId, req.user.id);
   return res.json(server);
 }
 
 async function createServer(req, res){
-  const Server = req.app.get('models').Server;
+  const ServerService = req.app.get('services').Server;
 
-  const data = req.body;
-  data.user_id = req.user.id;
-
-  const server = await Server.create(data);
+  const server = await ServerService.createServer(req.body, req.user.id);
   return res.json(server);
 }
 
 async function updateServer(req, res){
-  const Server = req.app.get('models').Server;
+  const ServerService = req.app.get('services').Server;
 
-  let server = await Server.findById(req.params.serverId);
-  if (!server) {
+  try {
+    const server = await ServerService.updateServer(req.params.serverId, req.body, req.user.id);
+    return res.json(server);
+
+  } catch(err) {
     return res.status(403).send({
       success: false,
-      message: 'Server doesn\'t exist.'
+      message: err.message
     });
   }
-
-  server = await server.update(req.body);
-  return res.json(server);
 }
 
 async function deleteServer(req, res){
-  const Server = req.app.get('models').Server;
+  const ServerService = req.app.get('services').Server;
 
-  const server = await Server.findById(req.params.serverId);
-  if (!server) {
-    return res.status(403).send({
-      success: false,
-      message: 'Server doesn\'t exist.'
-    });
-  }
-
-  await server.destroy();
+  await ServerService.deleteServer(req.params.serverId, req.user.id);
   res.json({
     success: true
   });

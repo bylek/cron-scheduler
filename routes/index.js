@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const servers = require('./servers');
 const jobs = require('./jobs');
 const authenticate = require('./authenticate');
@@ -14,37 +12,17 @@ module.exports = function(app){
 };
 
 async function isAuthenticated(req, res, next) {
-  const User = req.app.get('models').User;
+  const UserService = req.app.get('services').User;
   let token = (req.headers['authorization'] || req.query.token || '').replace(/^Bearer /, '');
 
-  if (token) {
-    let user;
-    try {
-      user = await jwt.verify(token, config.get('secret'));
+  try {
+    req.user = await UserService.isAuthenticated(token);
+    next();
 
-    } catch (err) {
-      return res.status(403).send({
-        success: false,
-        message: 'Failed to authenticate token.'
-      });
-    }
-
-    user = await User.findById(user.id);
-    if (!user) {
-      return res.status(403).send({
-        success: false,
-        message: 'User doesn\'t exist.'
-      });
-    }
-
-    req.user = user;
-    return next();
-
+  } catch (err) {
+    return res.status(403).send({
+      success: false,
+      message: err.message
+    });
   }
-
-  return res.status(403).send({
-    success: false,
-    message: 'No token provided.'
-  });
-
 }
