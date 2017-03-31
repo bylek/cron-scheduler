@@ -58,7 +58,6 @@ class ServerService {
     if (server) {
       const command = this.getUpdateCronCommand(await server.getJobs());
       const connectionData = server.getConnectionData();
-      connectionData.readyTimeout = 2000;
 
       const data = { syncing: true };
       if (server.get('error_message')) {
@@ -66,16 +65,18 @@ class ServerService {
       }
       server.update(data);
 
-      exec(command, connectionData, function(err){
-        const data = { syncing: false };
-        if (err) {
-          data.error_message = err.message;
-        }
-        server.update(data);
+      return new Promise(function(resolve){
+        exec(command, connectionData, function(err){
+          const data = { syncing: false };
+          if (err) {
+            data.error_message = err.message;
+          }
+          server.update(data);
+
+          resolve(server);
+        });
       });
     }
-
-    return server;
   }
 
   getUpdateCronCommand(jobs) {
