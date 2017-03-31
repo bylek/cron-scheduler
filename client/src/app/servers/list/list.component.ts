@@ -15,6 +15,7 @@ export class ServersListComponent implements OnInit {
   ) {
     serverService.servers
       .subscribe(servers => {
+        console.log('servers', servers);
         this.servers = servers;
       });
   }
@@ -24,6 +25,7 @@ export class ServersListComponent implements OnInit {
   }
 
   getServers() {
+      console.log('get servers', 1);
     this.serverService.getServers()
       .subscribe();
   }
