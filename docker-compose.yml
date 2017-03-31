@@ -1,7 +1,7 @@
 version: '2'
 services:
     haproxy:
-        image: bylek/timer-haproxy
+        image: bylek/cron-haproxy
         ports:
             - "80:80"
         links:
@@ -12,17 +12,17 @@ services:
             - backend
             - frontend
     mysql:
-        image: bylek/timer-mysql
+        image: bylek/cron-mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
     backend:
-        image: bylek/timer-backend
+        image: bylek/cron-backend
         restart: always
         links:
             - mysql
         depends_on:
             - mysql
     frontend:
-        image: bylek/timer-frontend
+        image: bylek/cron-frontend
         depends_on:
             - backend
