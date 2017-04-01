@@ -91,7 +91,7 @@ class ServerService {
     });
 
     const base64entry = new Buffer(
-      entries.join('\n')
+      entries.join('\n') + '\n'
     ).toString('base64');
 
     return `echo "${base64entry}" | base64 --decode | crontab -`;
