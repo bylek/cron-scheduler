@@ -5,7 +5,10 @@ module.exports = function(sequelize, DataTypes) {
     command: DataTypes.TEXT,
     type: {
       type: DataTypes.ENUM,
-      values: ['HOURLY', 'DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY', 'CUSTOM']
+      values: [
+        'EVERY_MINUTE', 'EVERY_5_MINUTES', 'EVERY_15_MINUTES', 'EVERY_30_MINUTES',
+        'HOURLY', 'DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY', 'CUSTOM'
+      ]
     },
     cron_entry: DataTypes.TEXT,
     active: {
@@ -19,6 +22,14 @@ module.exports = function(sequelize, DataTypes) {
     instanceMethods: {
       getCronEntry: function(){
         switch(this.type){
+          case 'EVERY_MINUTE':
+            return '* * * * *';
+          case 'EVERY_5_MINUTES':
+            return '*/5 * * * *';
+          case 'EVERY_15_MINUTES':
+            return '*/15 * * * *';
+          case 'EVERY_30_MINUTES':
+            return '*/30 * * * *';
           case 'HOURLY':
             return '0 * * * *';
           case 'DAILY':

@@ -17,6 +17,10 @@
   <div class="form-group">
     <label class="control-label">Type</label>
     <select class="form-control" formControlName="type">
+      <option value="{{Type[Type.EVERY_MINUTE]}}">Every minute</option>
+      <option value="{{Type[Type.EVERY_5_MINUTES]}}">Every 5 minutes</option>
+      <option value="{{Type[Type.EVERY_15_MINUTES]}}">Every 15 minutes</option>
+      <option value="{{Type[Type.EVERY_30_MINUTES]}}">Every 30 minutes</option>
       <option value="{{Type[Type.HOURLY]}}">Hourly</option>
       <option value="{{Type[Type.DAILY]}}">Daily</option>
       <option value="{{Type[Type.WEEKLY]}}">Weekly</option>
