@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// initialize sequelize models
+// initialize sequelize models 
 const models = require('./models');
 const sequelize = models.sequelize;
 app.set('models', models);
